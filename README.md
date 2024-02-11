@@ -42,42 +42,51 @@ This repo contains all of the documentation for setting this up.
 
 This is needed by the PiIR package for sending IR commands.
 
-`sudo apt install pigpio -y`
-`sudo systemctl enable pigpiod`
-`sudo systemctl start pigpiod`
+```
+sudo apt install pigpio -y
+sudo systemctl enable pigpiod
+sudo systemctl start pigpiod
+```
 
 ### Create python virtual environment
 
 This isn't strictly necessary, but highly recommended. If you skip this step, you'll need to adjust some of the paths in the service files accordingly.
 
-`python3 -m venv .venv`
-`. .venv/bin/activate`
+```
+python3 -m venv .venv
+. .venv/bin/activate
+```
 
 ### Python dependencies
 
-For the *displayOCR* service:
-    pip install picamera
-    pip install Wand
-    pip install paho-mqtt
-    pip install Pillow
+For the **displayOCR** service:
+```
+pip install picamera
+pip install Wand
+pip install paho-mqtt
+pip install Pillow
+```
 
-For the *webIR* service:
-`pip install flask`
-`pip install gunicorn`
-`pip install PiIR`
+For the **webIR** service:
+```
+pip install flask
+pip install gunicorn
+pip install PiIR
+```
 
 ### Recommended additional preparation
 
 This involves constant writing and reading of files and can wear out an sd card. To reduce the wear, I recommended that you create a small RAM disk using tmpfs so that the image files are all processed in memory and not on the card.
 
-`sudo mkdir /var/tempmem`
-
-`sudo nano /etc/fstab`
+```
+sudo mkdir /var/tempmem
+sudo nano /etc/fstab
 
 Add this line to the end of fstab:
-`tmpfs /var/tempmem tmpfs nodev,nosuid,size=400M 0 0`
+tmpfs /var/tempmem tmpfs nodev,nosuid,size=400M 0 0
 
-`sudo mount -a`
+sudo mount -a
+```
 
 You can use a different path, just update the config file accordingly.
 
