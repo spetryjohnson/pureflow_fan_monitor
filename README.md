@@ -110,7 +110,7 @@ This is based on https://blog.gordonturner.com/2020/05/31/raspberry-pi-ir-receiv
 
 Other transistors and resistors might work. I'm not a hardware guy, I'm just cobbling together stuff I've found on the web. Follow my instructions at your own risk ;)
 
-# Using and testing the s231ystem
+# Setting it all up
 
 The web app is located at port 8080 on the Raspberry Pi's ip address or hostname.
 
