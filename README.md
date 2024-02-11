@@ -14,9 +14,9 @@ I have solved this with a Raspberry Pi Zero W that runs two services:
 
 This repo contains all of the documentation for setting this up.
 
-## System overview
+# System overview
 
-### Required hardware
+## Required hardware
 
 - **Raspberry Pi Zero W** - the brains of the whole thing
 - **Raspberry Pi camera** - for taking pictures of the fan's LCD
@@ -27,18 +27,18 @@ This repo contains all of the documentation for setting this up.
 
 (See below for hardware instuctions)
 
-### Software components
+## Software components
 
 - **[SSOCR utility](https://github.com/auerswal/ssocr)** - performs the OCR process
 - **pureflow_OCR.service** - Python script, running as a service, that monitors the fan LCD and reports changes over MQTT
 - **pureflow_webIR.service** - Simple Flask web app for managing program and issuing IR transmissions in response to HTTP API calls
 
-## Installation
+# Installation
 
-### Install ssocr
+## Install ssocr
 `sudo apt install ssocr -y`
 
-### Install pigpio daemon
+## Install pigpio daemon
 
 This is needed by the PiIR package for sending IR commands.
 
@@ -48,7 +48,7 @@ sudo systemctl enable pigpiod
 sudo systemctl start pigpiod
 ```
 
-### Create python virtual environment
+## Create python virtual environment
 
 This isn't strictly necessary, but highly recommended. If you skip this step, you'll need to adjust some of the paths in the service files accordingly.
 
@@ -57,7 +57,7 @@ python3 -m venv .venv
 . .venv/bin/activate
 ```
 
-### Python dependencies
+## Python dependencies
 
 For the **displayOCR** service:
 ```
@@ -74,7 +74,7 @@ pip install gunicorn
 pip install PiIR
 ```
 
-### Recommended additional preparation
+## Recommended additional preparation
 
 This involves constant writing and reading of files and can wear out an sd card. To reduce the wear, I recommended that you create a small RAM disk using tmpfs so that the image files are all processed in memory and not on the card.
 
@@ -90,9 +90,9 @@ sudo mount -a
 
 You can use a different path, just update the config file accordingly.
 
-### Configuring the system services
+## Configuring the system services
 
-## Hardware instructions
+# Hardware instructions
 
 This is based on https://blog.gordonturner.com/2020/05/31/raspberry-pi-ir-receiver/
 
