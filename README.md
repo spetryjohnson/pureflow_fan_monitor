@@ -20,7 +20,7 @@ This repo contains all of the documentation for setting this up.
 
 - **Raspberry Pi Zero W** - the brains of the whole thing
 - **Raspberry Pi camera** - for taking pictures of the fan's LCD
-- **IR Transmitter** - sends commands to the fan
+- **[IR LED](https://www.amazon.com/dp/B00M1PN5TK?psc=1&ref=ppx_yo2ov_dt_b_product_details)** - IR transmitter that sends commands to the fan
 - **220 Ohm resistor** - limits LED current draw and protects the PI
 - **BC-337 transistor** - allows LED to be switched on/off by a GPIO pin
 - **3d printed enclosure** - for mounting to the base of the fan
@@ -110,7 +110,7 @@ This is based on https://blog.gordonturner.com/2020/05/31/raspberry-pi-ir-receiv
 
 Other transistors and resistors might work. I'm not a hardware guy, I'm just cobbling together stuff I've found on the web. Follow my instructions at your own risk ;)
 
-# Using and testing the System
+# Using and testing the s231ystem
 
 The web app is located at port 8080 on the Raspberry Pi's ip address or hostname.
 

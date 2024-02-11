@@ -24,7 +24,7 @@ LAST_CHANGE_TEXT_PATH = config['Web'].get('LAST_CHANGE_TEXT_PATH')
 USE_RPC = config['Web'].getboolean('USE_RPC')
 RPC_PORT = config['Web'].getint('RPC_PORT')
 RPC_SECRET = bytes(config['Web'].get('RPC_SECRET', 'Super secret'), 'utf-8')
-
+IR_LED_GPIO = config['Web'].getint('IR_LED_GPIO')
 
 #--------------------------------------------------------
 # Flash web app
@@ -44,7 +44,6 @@ def hello_world():
 			currentReading = currentReading + line
 
 	# Show list of images, most recent first
-	#paths = sorted(Path(STATIC_IMAGE_PATH).iterdir(), key=os.path.getmtime)
 	origImages = glob.glob(STATIC_FILE_PATH + '*-orig.jpg')
 	origImages.sort(key=os.path.getmtime, reverse=True)
 	origImageNames = [os.path.basename(x) for x in origImages]
@@ -53,7 +52,7 @@ def hello_world():
 
 @app.route('/toggle')
 def toggle():
-	remote = Remote('pureflow-IR-commands.json', 15)
+	remote = Remote('pureflow-IR-commands.json', IR_LED_GPIO)
 	remote.send('power')
 	return render_template('toggle.html')
 
