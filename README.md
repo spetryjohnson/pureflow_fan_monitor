@@ -36,7 +36,9 @@ This repo contains all of the documentation for setting this up.
 # Installation
 
 ## Install ssocr
-`sudo apt install ssocr -y`
+```
+sudo apt install ssocr -y
+```
 
 ## Install pigpio daemon
 
@@ -92,8 +94,42 @@ You can use a different path, just update the config file accordingly.
 
 ## Configuring the system services
 
+```
+sudo cp webIR/pureflow_webIR.service /lib/systemd/system
+sudo systemctl enable pureflow_webIR.service
+sudo systemctl start pureflow_webIR.service
+
+sudo cp displayOCR/pureflow_OCR.service /lib/systemd/system
+sudo systemctl enable pureflow_OCR.service
+sudo systemctl start pureflow_OCR.service
+```
+
 # Hardware instructions
 
 This is based on https://blog.gordonturner.com/2020/05/31/raspberry-pi-ir-receiver/
 
 Other transistors and resistors might work. I'm not a hardware guy, I'm just cobbling together stuff I've found on the web. Follow my instructions at your own risk ;)
+
+# Using and testing the System
+
+The web app is located at port 8080 on the Raspberry Pi's ip address or hostname.
+
+It's pretty fugly, I was just focused on making it functional.
+
+## Placing the case on the fan
+
+I place my monitors on the right hand side of the fans so that all of the cables can route behind the fan and be hidden from view.
+
+You want the camera to be 90 degrees rotated with respect to the LCD display. Technically you should be able to use any orientation, since we rotate the image before processing it anyways, but in my testing I found *significant* performance degredation (at least on a pi zero w) when rotating by values other than exactly 90 degrees.
+
+TODO: image
+
+## Dialing in the OCR
+
+You can use the web app to figure out the correct crop settings.
+
+Load up the app and click the "toggle bounding box" option. This will display a red box over the images showing the region that is being examined by the OCR process. 
+
+Either adjust the camera placement so that this box nicely surrounds the digit to process (*I designed this to deal with the rightmost digit only; I never run above 4 or 5 power*) or modify the `config.ini` file to enter new crop coordinates.
+
+Don't forget to disable the bounding box once you get it working, it adds unnecessary load.
