@@ -18,20 +18,20 @@ This repo contains all of the documentation for setting this up.
 
 ### Required hardware
 
-- *Raspberry Pi Zero W* - the brains of the whole thing
-- *Raspberry Pi camera* - for taking pictures of the fan's LCD
-- *IR Transmitter* - sends commands to the fan
-- *220 Ohm resistor* - limits LED current draw and protects the PI
-- *BC-337 transistor* - allows LED to be switched on/off by a GPIO pin
-- *3d printed enclosure* - for mounting to the base of the fan
+- **Raspberry Pi Zero W** - the brains of the whole thing
+- **Raspberry Pi camera** - for taking pictures of the fan's LCD
+- **IR Transmitter** - sends commands to the fan
+- **220 Ohm resistor** - limits LED current draw and protects the PI
+- **BC-337 transistor** - allows LED to be switched on/off by a GPIO pin
+- **3d printed enclosure** - for mounting to the base of the fan
 
 (See below for hardware instuctions)
 
 ### Software components
 
-- *[SSOCR utility](https://github.com/auerswal/ssocr)* - performs the OCR process
-- *pureflow_OCR.service* - Python script, running as a service, that monitors the fan LCD and reports changes over MQTT
-- *pureflow_webIR.service* - Simple Flask web app for managing program and issuing IR transmissions in response to HTTP API calls
+- **[SSOCR utility](https://github.com/auerswal/ssocr)** - performs the OCR process
+- **pureflow_OCR.service** - Python script, running as a service, that monitors the fan LCD and reports changes over MQTT
+- **pureflow_webIR.service** - Simple Flask web app for managing program and issuing IR transmissions in response to HTTP API calls
 
 ## Installation
 
@@ -56,10 +56,10 @@ This isn't strictly necessary, but highly recommended. If you skip this step, yo
 ### Python dependencies
 
 For the *displayOCR* service:
-`pip install picamera`
-`pip install Wand`
-`pip install paho-mqtt`
-`pip install Pillow`
+    pip install picamera
+    pip install Wand
+    pip install paho-mqtt
+    pip install Pillow
 
 For the *webIR* service:
 `pip install flask`
