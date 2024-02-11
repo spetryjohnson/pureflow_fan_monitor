@@ -1,0 +1,1 @@
+piir play --gpio 15 --file pureflow-IR-commands.json power

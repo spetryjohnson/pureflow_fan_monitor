@@ -1,0 +1,26 @@
+[Unit]
+Description=PureFlow fan LCD OCR
+After=multi-user.target
+
+[Service]
+User=pi
+Group=pi
+Type=simple
+
+# Need the relative path to the config file to resolve correctly
+WorkingDirectory=/home/pi/pureflow_fan_monitor/displayOCR/
+
+# Want to run python out of the venv, so it picks up the packages
+Environment="PATH=/home/pi/pureflow_fan_monitor/displayOCR/.venv/bin:/usr/local/bin"
+
+# Was having all kinds of trouble with pillow. It seems to be installed
+# in my user directory and isn't found when run as a service. I cannot
+# remove it b/c pip keeps saying that "--user" isn't recognized. Hacky
+# fix is to set the python path to the local folder
+Environment="PYTHONPATH=/home/pi/.local/lib/python3.9/site-packages/"
+
+ExecStart=/home/pi/pureflow_fan_monitor/displayOCR/.venv/bin/python /home/pi/pureflow_fan_monitor/displayOCR/displayOCR.py
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

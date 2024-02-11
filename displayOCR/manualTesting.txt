@@ -1,0 +1,16 @@
+# take a picture with same settings used by the app
+raspistill -w 640 -h 480 -n -co 85 -t 2000 -o test.jpg
+
+# crop using imagemagick (equivalent to Wand in python)
+# specific dimensions will need determined after camera is fixed in place
+# format is ({length_of_cropped_area}x{height_of_cropped_area}+{xstart}+{ystart}
+convert test.jpg -crop 393x222+180+0 test_cropped.jpg
+
+# rotate
+convert test_cropped.jpg -rotate 90 test_rotated.jpg
+
+# negation makes ssocr more accurate
+convert test_rotated.jpg -negate test_negated.jpg
+
+# OCR
+ssocr -d 1 test_negated.jpg

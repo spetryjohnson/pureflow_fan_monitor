@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+  <title>Desk Fan</title>
+  <style type="text/css">
+    /* Three image containers (use 25% for four, and 50% for two, etc) */
+    .column {
+      float: left;
+      width: 33.33%;
+      padding: 5px;
+    }
+
+    /* Clear floats after image containers */
+    .row::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+  </style>
+</head>
+<body>
+
+<h1>{{ now }}</h1>
+<h2>Current Reading: {{ currentReading }}</h2>
+<p>
+  <a href="#" onclick="makeApiCallAndReload('toggle'); return false;">Toggle power</a> / 
+  <a href="#" onclick="makeApiCallAndReload('toggleBoundingBox'); return false;">Toggle bounding box</a> / 
+  <a href="#" onclick="makeApiCallAndReload('toggleDebug'); return false;">Toggle debug output</a> 
+</p>
+<div class="row">
+  <div class="column">
+    <img src="/static/_lastChange-orig.jpg" width="320" height="240"/>
+  </div>
+  <div class="column">
+    <img src="/static/_lastChange-proc.jpg" height="240"/>
+  </div>
+</div>
+
+<hr>
+<h2>Recent images</h2>
+
+{% for imageName in origImageNames %}
+  <div class="row">
+    <div class="column">
+      <img src="/static/{{ imageName }}" width="320" height="240"/>
+    </div>
+    <div class="column">
+      <img src="/static/{{ imageName | replace('-orig', '-processed') }}" height="240"/>
+    </div>
+  </div>
+{% endfor %}
+
+<script type="text/javascript">
+  function makeApiCallAndReload(endpoint) {
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "/" + endpoint, true);
+    
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState != 4)   // 4 == done
+        return;
+        
+      const status = xhr.status;
+      if (status === 0 || (status >= 200 && status < 400)) {
+        alert("success");
+        window.setTimeout(function() {
+          window.location.reload();
+        }, 500);
+      }
+      else {
+        alert("AJAX call failed: " + xhr.responseText);
+      }
+    }
+    xhr.send();
+  }
+</script>
+
+</body>

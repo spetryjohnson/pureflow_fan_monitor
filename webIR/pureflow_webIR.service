@@ -1,0 +1,17 @@
+[Unit]
+Description=PureFlow fan LCD OCR
+After=network.target
+
+[Service]
+User=pi
+Group=pi
+WorkingDirectory=/home/pi/pureflow_fan_monitor/webIR/
+Environment="PATH=/home/pi/pureflow_fan_monitor/webIR/.venv/bin"
+ExecStart=/home/pi/pureflow_fan_monitor/webIR/.venv/bin/gunicorn --config gunicorn_config.py app:app
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
