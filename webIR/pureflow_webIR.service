@@ -6,8 +6,8 @@ After=network.target
 User=pi
 Group=pi
 WorkingDirectory=/home/pi/pureflow_fan_monitor/webIR/
-Environment="PATH=/home/pi/pureflow_fan_monitor/webIR/.venv/bin"
-ExecStart=/home/pi/pureflow_fan_monitor/webIR/.venv/bin/gunicorn --config gunicorn_config.py app:app
+Environment="PATH=/home/pi/pureflow_fan_monitor/.venv/bin"
+ExecStart=/home/pi/pureflow_fan_monitor/.venv/bin/gunicorn --config gunicorn_config.py app:app
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=mixed
 TimeoutStopSec=5
