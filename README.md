@@ -37,6 +37,24 @@ This system relies on two Python scripts that are installed as systemd services:
 - **pureflow_OCR.service** - Monitors the fan's LCD screen and reports the current power level over MQTT
 - **pureflow_webIR.service** - Web app that triggers IR transmissions in response to HTTP requests
 
+## Get source code
+
+Install the Github CLI and then pull down this repo (or use any other way to get these files onto your machine).
+
+```
+From https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+
+type -p curl >/dev/null || (sudo apt update && sudo apt install curl -y)
+curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg \
+&& sudo chmod go+r /usr/share/keyrings/githubcli-archive-keyring.gpg \
+&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+&& sudo apt update \
+&& sudo apt install gh -y
+```
+```
+gh repo clone spetryjohnson/pureflow_fan_monitor
+```
+
 ## Install ssocr
 
 `ssocr` is a third party tool for doing OCR of "seven segment displays", e.g. the LCD that displays the power level.
@@ -53,6 +71,20 @@ This is needed by the PiIR package for sending IR commands.
 sudo apt install pigpio -y
 sudo systemctl enable pigpiod
 sudo systemctl start pigpiod
+```
+
+## Create RAM disk for image manipulation (optional)
+
+This involves a lot of reading and writing image files to disk. To reduce wear on the SD card, create a tmpfs RAM disk to hold them instead.
+
+```
+sudo mkdir /var/tempmem
+sudo nano /etc/fstab
+
+Add this line to fstab:
+  -> tmpfs /var/tempmem tmpfs nodev,nosuid,size=400M 0 0
+
+sudo mount -a
 ```
 
 ## Create virtual Python environment (optional) 
