@@ -9,6 +9,9 @@ from configparser import ConfigParser, ExtendedInterpolation
 # For RPC to the OCR app
 from multiprocessing.connection import Client
 
+# For getting current hostname
+import socket
+
 #--------------------------------------------------------
 # Load config file
 #
@@ -37,8 +40,9 @@ app = Flask(__name__,
 	static_folder=STATIC_FILE_PATH)
 
 @app.route('/')
-def hello_world():
+def index():
 	now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+	hostname = socket.gethostname()
 
 	# Show current reading
 	currentReading = '';
@@ -52,7 +56,13 @@ def hello_world():
 	origImages.sort(key=os.path.getmtime, reverse=True)
 	origImageNames = [os.path.basename(x) for x in origImages]
 	
-	return render_template('index.html', now=now, autoRefreshSec=AUTO_RERESH_SECONDS, currentReading=currentReading, origImageNames=origImageNames)
+	return render_template(
+		'index.html', 
+		hostname=hostname,
+		now=now, 
+		autoRefreshSec=AUTO_RERESH_SECONDS, 
+		currentReading=currentReading, 
+		origImageNames=origImageNames)
 
 @app.route('/toggle')
 def toggle():

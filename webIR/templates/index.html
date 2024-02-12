@@ -24,8 +24,10 @@
 </head>
 <body>
 
-<h1>{{ now }}</h1>
-<h2>Current Reading: {{ currentReading }}</h2>
+<h1>{{ hostname }}</h1>
+<p>
+  Current reading: <b>{{ currentReading }}</b>
+</p>
 <p>
   <a href="#" onclick="makeApiCallAndReload('toggle'); return false;">Toggle power</a> / 
   <a href="#" onclick="makeApiCallAndReload('toggleBoundingBox'); return false;">Toggle bounding box</a> / 
