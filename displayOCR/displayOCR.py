@@ -201,7 +201,7 @@ if __name__ == '__main__':
 					copyfile(textReadingPath, LAST_CHANGE_TEXT_PATH)
 					print(newReading + ' [NEW]')
 				elif (timeToReport):
-					print(newReading)
+					print(newReading + ' [' + str(secondsSinceChange) + ' seconds since last report]')
 
 				# Notify MQTT
 				if (SEND_MQTT and (valueChanged or timeToReport)):
@@ -215,6 +215,7 @@ if __name__ == '__main__':
 					mqttClient.connect(MQTT_HOST)	
 					mqttClient.publish(MQTT_TOPIC, jsonData, retain=True)
 					mqttClient.disconnect()	
+					timeOfLastChange = now
 					if (DEBUG): print('Done!')
 				
 				if (LOOP_DELAY_SEC > 0):
