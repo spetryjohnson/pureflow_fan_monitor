@@ -5,7 +5,8 @@ from configparser import ConfigParser, ExtendedInterpolation
 
 # For image generation and preparation
 from shutil import copyfile
-from picamera import PiCamera
+#from picamera import PiCamera
+from picamera2 import Picamera2 as PiCamera
 from wand.image import Image
 from PIL import Image as PilImage, ImageDraw as PilImageDraw
 
@@ -96,7 +97,7 @@ def startListenerThread():
 if __name__ == '__main__':
 	# local vars
 	if (SEND_MQTT):
-		mqttClient = mqtt.Client()
+		mqttClient = mqtt.Client(mqtt.CallbackAPIVersion.VERSION1)
 	
 	imageCounter = 0			# For rotating image names
 	valueOfLastChange = ''		# Value that last triggered a change in value
@@ -111,6 +112,7 @@ if __name__ == '__main__':
 	with PiCamera() as camera:
 		camera.resolution  = (640, 480)
 		camera.contrast = 85
+		camera.start()
 		time.sleep(2)
 		print(' Ready!')
 
@@ -132,7 +134,7 @@ if __name__ == '__main__':
 			textReadingPath = pathPrefix + '-reading.txt'
 			
 			if (DEBUG): print('Getting image ' + origImagePath + '...', end='', flush=True)
-			camera.capture(origImagePath)
+			camera.capture_file(origImagePath)
 			if (DEBUG): print('Done!')
 			
 			if (ADD_CROP_BOX_TO_IMG):
