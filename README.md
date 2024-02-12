@@ -8,11 +8,9 @@ Specifically, I want Home Assistant to:
 - Know the power level in use (0-9)
 - Turn the fan on/off as part of automations 
 
-I have solved this with a Raspberry Pi Zero W that monitors the fan's LCD display, determines what power level is in use, and then reports that value over MQTT. 
-
-The pi also hosts a simple API that will toggle the fan's power (via IR) in response to HTTP messages.
-
-This repo contains all of the documentation for setting this up.
+I have solved this with a Raspberry Pi Zero W, a camera module, and an IR transmitter LED. 
+ 
+![Image of a PureFlow QT7 with my hackjob of a 3d printed case mounted to it](/assets/mount-up-close.png)
 
 > [!WARNING]
 > This works great for a Pi Zero W. The newer Pi Zero **2** W deprecates the legacy camera stack and requires a few changes to run. See the Pi Zero 2 section at the end of this page.
@@ -30,6 +28,8 @@ Required components:
 - **3d printed enclosure** - (optional) for mounting to the base of the fan
 
 ![Fritzing image showing a circuit from 5V to LED to collector side of transistor, with resistor between base and GPIO 15](/assets/circuit-layout_bb.png)
+
+![Picture of the pi with the transistor and resitor soldered to it](/assets/pi-circuit.png)
 
 > [!NOTE]
 > Other transistors and resistors might work. I'm not a hardware guy, so follow my instructions at your own risk ;)
