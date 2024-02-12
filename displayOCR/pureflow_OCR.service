@@ -11,7 +11,7 @@ Type=simple
 WorkingDirectory=/home/pi/pureflow_fan_monitor/displayOCR/
 
 # Want to run python out of the venv, so it picks up the packages
-Environment="PATH=/home/pi/pureflow_fan_monitor/.venv/bin:/usr/local/bin"
+Environment="PATH=/home/pi/pureflow_fan_monitor/.venv/bin:/usr/local/bin:/usr/bin/ssocr"
 
 # Was having all kinds of trouble with pillow. It seems to be installed
 # in my user directory and isn't found when run as a service. I cannot

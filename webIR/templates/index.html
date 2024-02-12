@@ -17,6 +17,10 @@
       display: table;
     }
   </style>
+  
+  {% if autoRefreshSec > 0 %}
+    <meta http-equiv="refresh" content="{{ autoRefreshSec }}">
+  {% endif %}
 </head>
 <body>
 
@@ -25,7 +29,8 @@
 <p>
   <a href="#" onclick="makeApiCallAndReload('toggle'); return false;">Toggle power</a> / 
   <a href="#" onclick="makeApiCallAndReload('toggleBoundingBox'); return false;">Toggle bounding box</a> / 
-  <a href="#" onclick="makeApiCallAndReload('toggleDebug'); return false;">Toggle debug output</a> 
+  <a href="#" onclick="makeApiCallAndReload('toggleDebug'); return false;">Toggle debug output</a> /
+  <a href="#" onclick="makeApiCallAndReload('toggleAutoRefresh'); return false;">Toggle auto page refresh</a>
 </p>
 <div class="row">
   <div class="column">

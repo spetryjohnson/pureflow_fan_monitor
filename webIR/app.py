@@ -26,6 +26,9 @@ RPC_PORT = config['Web'].getint('RPC_PORT')
 RPC_SECRET = bytes(config['Web'].get('RPC_SECRET', 'Super secret'), 'utf-8')
 IR_LED_GPIO = config['Web'].getint('IR_LED_GPIO')
 
+# Local settings (not in config)
+AUTO_RERESH_SECONDS = 0
+
 #--------------------------------------------------------
 # Flash web app
 #-----------------------------
@@ -39,16 +42,17 @@ def hello_world():
 
 	# Show current reading
 	currentReading = '';
-	with open(LAST_CHANGE_TEXT_PATH) as filetext:
-		for line in filetext:
-			currentReading = currentReading + line
+	if (os.path.exists(LAST_CHANGE_TEXT_PATH)):
+		with open(LAST_CHANGE_TEXT_PATH) as filetext:
+			for line in filetext:
+				currentReading = currentReading + line
 
 	# Show list of images, most recent first
 	origImages = glob.glob(STATIC_FILE_PATH + '*-orig.jpg')
 	origImages.sort(key=os.path.getmtime, reverse=True)
 	origImageNames = [os.path.basename(x) for x in origImages]
 	
-	return render_template('index.html', now=now, currentReading=currentReading, origImageNames=origImageNames)
+	return render_template('index.html', now=now, autoRefreshSec=AUTO_RERESH_SECONDS, currentReading=currentReading, origImageNames=origImageNames)
 
 @app.route('/toggle')
 def toggle():
@@ -76,4 +80,16 @@ def toggleDebug():
 	conn = Client(address, authkey=RPC_SECRET)
 	conn.send('toggleDebug')
 	conn.close()
+	return ('Success', 200)
+
+
+@app.route('/toggleAutoRefresh')
+def toggleAutoRefresh():
+	global AUTO_RERESH_SECONDS
+
+	if (AUTO_RERESH_SECONDS == 0):
+		AUTO_RERESH_SECONDS = 1
+	else:
+		AUTO_RERESH_SECONDS = 0
+
 	return ('Success', 200)

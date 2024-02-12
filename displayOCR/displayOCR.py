@@ -31,6 +31,10 @@ from multiprocessing import ProcessError as MultiprocProcessError
 #--------------------------------------------------------
 config = ConfigParser(interpolation=ExtendedInterpolation())
 config.read('../config.ini')
+
+if (os.path.exists('../config.ini.local')):
+	config.read('../config.ini.local')
+
 CROP_STARTX = config['OCR'].getint('CROP_STARTX')
 CROP_STARTY = config['OCR'].getint('CROP_STARTY')
 CROP_ENDX = config['OCR'].getint('CROP_ENDX')
