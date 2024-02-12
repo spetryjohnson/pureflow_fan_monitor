@@ -201,6 +201,10 @@ switch:
 
 # Troubleshooting
 
+## Manually sending the power toggle IR command
+
+`piir play --gpio 15 --file webIR/pureflow-IR-commands.json power`
+
 ## Checking the logs of a running service
 
 `sudo journalctl -f -u pureflow_OCR.service`
