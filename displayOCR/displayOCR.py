@@ -95,7 +95,9 @@ def startListenerThread():
 #--------------------------------------------------------
 if __name__ == '__main__':
 	# local vars
-	mqttClient = mqtt.Client("OfficeDeskFanPi")
+	if (SEND_MQTT):
+		mqttClient = mqtt.Client()
+	
 	imageCounter = 0			# For rotating image names
 	valueOfLastChange = ''		# Value that last triggered a change in value
 	timeOfLastChange = datetime.datetime.now()
