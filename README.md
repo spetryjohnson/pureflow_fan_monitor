@@ -14,6 +14,10 @@ The pi also hosts a simple API that will toggle the fan's power (via IR) in resp
 
 This repo contains all of the documentation for setting this up.
 
+> [!WARNING]
+> This works great for a Pi Zero W. The newer Pi Zero **2** W deprecates the legacy camera stack and requires a few changes to run. See the Pi Zero 2 section at the end of this page.
+
+
 # Hardware setup
 
 Required components:
@@ -55,24 +59,6 @@ curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo 
 gh repo clone spetryjohnson/pureflow_fan_monitor
 ```
 
-## Install ssocr
-
-`ssocr` is a third party tool for doing OCR of "seven segment displays", e.g. the LCD that displays the power level.
-
-```
-sudo apt install ssocr -y
-```
-
-## Install pigpio daemon
-
-This is needed by the PiIR package for sending IR commands.
-
-```
-sudo apt install pigpio -y
-sudo systemctl enable pigpiod
-sudo systemctl start pigpiod
-```
-
 ## Create RAM disk for image manipulation (optional)
 
 This involves a lot of reading and writing image files to disk. To reduce wear on the SD card, create a tmpfs RAM disk to hold them instead.
@@ -87,6 +73,32 @@ Add this line to fstab:
 sudo mount -a
 ```
 
+## Install ssocr
+
+[ssocr](https://github.com/auerswal/ssocr) is a third party tool for doing OCR of "seven segment displays", e.g. the LCD that displays the power level.
+
+```
+sudo apt install ssocr -y
+```
+
+## Install ImageMagick
+
+[ImageMagick](https://imagemagick.org/) is an open source image manipulation suite. It is required to run the Python module [Wand](https://pypi.org/project/Wand/)
+
+```
+sudo apt install imagemagick -y
+```
+
+## Install pigpio daemon
+
+This is needed by the PiIR package for sending IR commands.
+
+```
+sudo apt install pigpio -y
+sudo systemctl enable pigpiod
+sudo systemctl start pigpiod
+```
+
 ## Create virtual Python environment (optional) 
 
 It's recommended to use a virtual environment, unless this is the only Python script running on the pi. Even then, it's good practice. (If you skip this step, you'll need to adjust paths in the service files accordingly)
@@ -96,20 +108,21 @@ python3 -m venv .venv
 . .venv/bin/activate
 ```
 
-## Create the OCR service
+## Install Python dependencies
 
 ```
-pip install picamera Wand paho-mqtt Pillow
+pip install picamera Wand paho-mqtt Pillow flask gunicorn PiIR
+```
 
+- Camera, Wand, paho-mqtt, and Pillow are used for OCR
+- Flask, gunicorn, and PiIR are used for the web app and IR control
+
+## Create the system services
+
+```
 sudo cp displayOCR/pureflow_OCR.service /lib/systemd/system
 sudo systemctl enable pureflow_OCR.service
 sudo systemctl start pureflow_OCR.service
-```
-
-## Create the web service
-
-```
-pip install flask gunicorn PiIR
 
 sudo cp webIR/pureflow_webIR.service /lib/systemd/system
 sudo systemctl enable pureflow_webIR.service
@@ -244,3 +257,12 @@ switch:
 ## Running the web server manually for testing
 
 `flask run --host=0.0.0.0 --port 8080 --debug`
+
+# Pi Zero 2 W support
+
+There are major changes to the camera stack with the 2nd iteration of the Pi Zero. You will need to:
+
+1. Disable the legacy camera support in `raspi-config`
+1. Install [PiCamera2](https://github.com/raspberrypi/picamera2)
+1. Create your Python virtual environment using `--system-site-packages` ([see this link](https://forums.raspberrypi.com/viewtopic.php?t=361758))
+
